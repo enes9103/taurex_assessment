@@ -23,7 +23,7 @@ const LoadingItem = ({ childrenCount }) => (
 );
 
 const Loading = () => {
-  const parentCount = 4;
+  const parentCount = 7;
   const childCount = 2;
 
   return (

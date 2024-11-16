@@ -1,15 +1,20 @@
 "use client";
 
 import React, { useCallback, useMemo, useState } from "react";
-import useFetch from "../hooks/useFetch";
+// Components
 import Employee from "./Employee";
+import Loading from "./Loading";
+import Modal from "./base/Modal";
+// Utils/Hooks
 import { createEmployeeHierarchy } from "../utils/helpers/dataHelpers";
 import {
   checkCyclicDependencies,
   getParentIdsWithChildren,
 } from "../utils/helpers/treeHelpers";
-import Loading from "./Loading";
-import Modal from "./base/Modal";
+import useFetch from "../hooks/useFetch";
+// Others
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Main = () => {
   const { employees, loading, error } = useFetch("/data/employee_list.json");
@@ -77,10 +82,14 @@ const Main = () => {
   );
 
   const handleSubmit = () => {
+    if (selectedIds.length === 0) {
+      // If no employees are selected, show an error message
+      toast.warn("Please select employees before submitting!");
+      return;
+    }
+
     const uniqArray = [...new Set(selectedIds)];
     setSelectedUniqueData(uniqArray);
-    console.log("Selected IDs:", uniqArray);
-
     // Show the success modal after submission
     setIsSuccessModalOpen(true);
   };
@@ -131,7 +140,7 @@ const Main = () => {
 
       <button
         onClick={handleSubmit}
-        className="mt-4 bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded-lg"
+        className="my-4 bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded-lg"
       >
         Submit Selected Employees
       </button>
@@ -141,6 +150,7 @@ const Main = () => {
         onClose={closeModal}
         uniqArray={selectedUniqueData}
       />
+      <ToastContainer />
     </div>
   );
 };
