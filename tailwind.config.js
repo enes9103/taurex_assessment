@@ -12,6 +12,13 @@ module.exports = {
         foreground: "var(--foreground)",
       },
     },
+    listStyleType: {
+      none: 'none',
+      disc: 'disc',
+      decimal: 'decimal',
+      square: 'square',
+      roman: 'upper-roman',
+    }
   },
   plugins: [],
 };
